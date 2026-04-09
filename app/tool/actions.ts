@@ -233,23 +233,81 @@ export async function testFlavorGenerateCaptions(formData: FormData): Promise<Ac
     return { error: "Humor flavor and image are required." };
   }
 
-  const payload = { imageId, humorFlavorId };
-
-  const response = await fetch(`${API_BASE}/pipeline/generate-captions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${session.access_token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    return { error: `API error (${response.status}): ${text}` };
+  const numericFlavorId = Number(humorFlavorId);
+  if (!Number.isFinite(numericFlavorId)) {
+    return { error: "Humor flavor id must be a number." };
   }
 
-  const data = await response.json();
+  // Preflight check to avoid opaque 500s when a flavor is missing chain steps.
+  const { count: stepCount, error: stepCountError } = await supabase
+    .from("humor_flavor_steps")
+    .select("id", { count: "exact", head: true })
+    .eq("humor_flavor_id", numericFlavorId);
+
+  if (stepCountError) {
+    return { error: `Could not verify flavor steps: ${stepCountError.message}` };
+  }
+
+  if (!stepCount || stepCount < 1) {
+    return {
+      error:
+        "Selected flavor has no steps configured. Add at least one step in /tool/steps before generating captions.",
+    };
+  }
+
+  const payload = { imageId, humorFlavorId: numericFlavorId };
+
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}/pipeline/generate-captions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown network error";
+    return { error: `Request failed before reaching API: ${message}` };
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  const rawBody = await response.text();
+
+  let parsedBody: unknown = rawBody;
+  if (contentType.includes("application/json")) {
+    try {
+      parsedBody = JSON.parse(rawBody);
+    } catch {
+      parsedBody = rawBody;
+    }
+  }
+
+  if (!response.ok) {
+    const detail =
+      typeof parsedBody === "string" ? parsedBody : JSON.stringify(parsedBody, null, 2);
+
+    if (response.status === 500 && detail.includes("captionsAsArray.map is not a function")) {
+      return {
+        error:
+          `API error (500): captionsAsArray.map is not a function. ` +
+          `This usually means the selected flavor's chain output is not in the format expected by the backend. ` +
+          `Try a known-working flavor and compare /tool/steps config. Debug payload: ${JSON.stringify(payload)}.`,
+      };
+    }
+
+    return { error: `API error (${response.status}): ${detail}` };
+  }
+
+  if (!Array.isArray(parsedBody)) {
+    return {
+      error:
+        `Unexpected API response format (expected array, got ${typeof parsedBody}). ` +
+        `Raw response: ${typeof parsedBody === "string" ? parsedBody : JSON.stringify(parsedBody, null, 2)}`,
+    };
+  }
+
   revalidatePath("/tool/captions");
-  return { success: true, data };
+  return { success: true, data: parsedBody };
 }
