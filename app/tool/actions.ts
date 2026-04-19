@@ -68,6 +68,80 @@ export async function deleteHumorFlavor(formData: FormData): Promise<void> {
   revalidatePath("/tool/steps");
 }
 
+export async function duplicateHumorFlavor(formData: FormData): Promise<void> {
+  const { supabase, profileId } = await requirePromptChainAccess();
+
+  const sourceFlavorId = String(formData.get("source_flavor_id") ?? "").trim();
+  const newSlug = String(formData.get("new_slug") ?? "").trim();
+
+  if (!sourceFlavorId || !newSlug) return;
+
+  const { data: existingFlavor } = await supabase
+    .from("humor_flavors")
+    .select("id")
+    .eq("slug", newSlug)
+    .maybeSingle();
+
+  if (existingFlavor) return;
+
+  const { data: sourceFlavor, error: sourceFlavorError } = await supabase
+    .from("humor_flavors")
+    .select("description")
+    .eq("id", sourceFlavorId)
+    .single();
+
+  if (sourceFlavorError || !sourceFlavor) return;
+
+  const { data: insertedFlavor, error: insertFlavorError } = await supabase
+    .from("humor_flavors")
+    .insert({
+      slug: newSlug,
+      description: sourceFlavor.description,
+      created_by_user_id: profileId,
+      modified_by_user_id: profileId,
+    })
+    .select("id")
+    .single();
+
+  if (insertFlavorError || !insertedFlavor) return;
+
+  const { data: sourceSteps, error: sourceStepsError } = await supabase
+    .from("humor_flavor_steps")
+    .select(
+      "order_by, llm_input_type_id, llm_output_type_id, llm_model_id, humor_flavor_step_type_id, llm_temperature, llm_system_prompt, llm_user_prompt, description"
+    )
+    .eq("humor_flavor_id", sourceFlavorId)
+    .order("order_by", { ascending: true });
+
+  if (sourceStepsError) return;
+
+  if ((sourceSteps ?? []).length > 0) {
+    const stepsToInsert = (sourceSteps ?? []).map((step) => ({
+      humor_flavor_id: insertedFlavor.id,
+      order_by: step.order_by,
+      llm_input_type_id: step.llm_input_type_id,
+      llm_output_type_id: step.llm_output_type_id,
+      llm_model_id: step.llm_model_id,
+      humor_flavor_step_type_id: step.humor_flavor_step_type_id,
+      llm_temperature: step.llm_temperature,
+      llm_system_prompt: step.llm_system_prompt,
+      llm_user_prompt: step.llm_user_prompt,
+      description: step.description,
+      created_by_user_id: profileId,
+      modified_by_user_id: profileId,
+    }));
+
+    const { error: insertStepsError } = await supabase
+      .from("humor_flavor_steps")
+      .insert(stepsToInsert);
+
+    if (insertStepsError) return;
+  }
+
+  revalidatePath("/tool/flavors");
+  revalidatePath("/tool/steps");
+}
+
 export async function createHumorStep(formData: FormData): Promise<void> {
   const { supabase, profileId } = await requirePromptChainAccess();
 
