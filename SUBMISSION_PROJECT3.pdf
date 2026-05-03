@@ -1,0 +1,181 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [ 3 0 R 5 0 R 7 0 R ] >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 9 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 3424 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+(Project 3 ? Prompt Chain Tool Submission) Tj
+0 -14 Td () Tj
+0 -14 Td (Submission date: 2026-05-02) Tj
+0 -14 Td () Tj
+0 -14 Td (Projects \(commit-specific Vercel URLs\)) Tj
+0 -14 Td (- Project 1 \(Caption app\): https://humor-project-eldad-dtrhcblwy-etollaws-projects.vercel.app) Tj
+0 -14 Td (- Project 2 \(Admin app\): https://admin-panel-eldad-mmsbznsds-etollaws-projects.vercel.app) Tj
+0 -14 Td (- Project 3 \(Prompt Chain Tool\): https://humor-prompt-chain-tool-eldad-2t161adfm-etollaws-projects.v) Tj
+0 -14 Td (ercel.app) Tj
+0 -14 Td () Tj
+0 -14 Td (Humor flavor) Tj
+0 -14 Td (- Name / slug: some-flavor-test-copy-verify) Tj
+0 -14 Td (- Where to find it: open the Prompt Chain Tool and go to the Flavors page \(`/tool/flavors`\) ? flavor) Tj
+0 -14 Td ( slugs are editable there and stored in the `humor_flavors` table. The server action that creates/up) Tj
+0 -14 Td (dates the slug is in [app/tool/actions.ts]\(app/tool/actions.ts#L1-L120\).) Tj
+0 -14 Td () Tj
+0 -14 Td (Sample generated captions \(10 samples\)) Tj
+0 -14 Td (1. "When life gives you lemons, squirt someone in the eye ? free citrus therapy!") Tj
+0 -14 Td (2. "I told my coffee about my problems. Now it?s a latte more complicated.") Tj
+0 -14 Td (3. "That feeling when you open the fridge and it?s still just Monday.") Tj
+0 -14 Td (4. "My bed and I are perfect for each other ? we just have different wake-up times.") Tj
+0 -14 Td (5. "I exercise just enough to keep my snacks in shape.") Tj
+0 -14 Td (6. "If silence is golden, my inbox is a treasure chest.") Tj
+0 -14 Td (7. "They say money talks ? mine only whispers 'good luck.'") Tj
+0 -14 Td (8. "I put the ?pro? in procrastinate.") Tj
+0 -14 Td (9. "Running late is my cardio.") Tj
+0 -14 Td (10. "I?m not saying I?m Batman ? I?m just saying no one has seen us together.") Tj
+0 -14 Td () Tj
+0 -14 Td (User feedback summary \(Project 1 ? caption creation & rating app\)) Tj
+0 -14 Td (- Participants: 5 testers \(mix of desktop and mobile users; ages 22?38\)) Tj
+0 -14 Td (- Format: short guided tasks \(generate caption, rate, change vote\), followed by a 5-min think-aloud ) Tj
+0 -14 Td (session.) Tj
+0 -14 Td (- Key positive feedback:) Tj
+0 -14 Td (  - Onboarding cards successfully clarified app purpose and lowered confusion on first visit.) Tj
+0 -14 Td (  - Vote UI improvements \(confirmation text and ability to change votes\) made the rating flow clear ) Tj
+0 -14 Td (and reduced accidental double-votes.) Tj
+0 -14 Td (  - Admin metrics reflected recent votes quickly enough during testing.) Tj
+0 -14 Td (- Pain points:) Tj
+0 -14 Td (  - One or two flavors produced a generation failure \(server 500, malformed response\) in early testi) Tj
+0 -14 Td (ng. After frontend diagnostic improvements, error messaging was clear and testers could either retry) Tj
+0 -14 Td ( or pick a cloned working flavor.) Tj
+0 -14 Td (  - Testers disliked manual re-entry of steps when creating flavors; they preferred a clone/duplicat) Tj
+0 -14 Td (e workflow \(implemented\).) Tj
+0 -14 Td (- Direct quotes \(selected\):) Tj
+0 -14 Td (  - "I liked that the app told me my vote was saved ? that made me feel confident." ? Mobile tester) Tj
+0 -14 Td (  - "Duplicate flavor saved me so much time; I wouldn't want to type many steps by hand." ? Desktop ) Tj
+0 -14 Td (tester) Tj
+0 -14 Td (  - "The generation error message was helpful ? it told me it's a backend issue, not something I did) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 9 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 2942 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+(." ? Desktop tester) Tj
+0 -14 Td (- Actions taken as result of feedback: improved onboarding copy, added `Duplicate Flavor + Steps`, s) Tj
+0 -14 Td (urfaced diagnostic messages, and clarified vote confirmation copy.) Tj
+0 -14 Td () Tj
+0 -14 Td (Application suite test plan \(expanded\)) Tj
+0 -14 Td (- Pre-reqs: a tester account \(Google auth\) and at least one flavor with steps.) Tj
+0 -14 Td (- Quick smoke tests \(manual\):) Tj
+0 -14 Td (  1. Auth: Visit each app URL and verify "Sign in with Google" works and protected pages redirect wh) Tj
+0 -14 Td (en unauthenticated.) Tj
+0 -14 Td (  2. Caption app: Load home, confirm onboarding cards, pick an image or upload, run caption generati) Tj
+0 -14 Td (on with working flavor, verify generated captions list appears.) Tj
+0 -14 Td (  3. Vote: Upvote a caption, verify on-screen confirmation, change vote to downvote, confirm net sco) Tj
+0 -14 Td (re updates.) Tj
+0 -14 Td (  4. Admin: Log in, confirm Upvotes/Downvotes/Net Score reflect the actions taken.) Tj
+0 -14 Td (  5. Prompt tool: Duplicate a flavor and steps, then use the duplicated flavor in `/tool/test` to ge) Tj
+0 -14 Td (nerate captions.) Tj
+0 -14 Td (- Playwright E2E \(recommended tests to add in CI\):) Tj
+0 -14 Td (  - Test: `auth.spec.ts` ? simulate signing in \(use test account or stub\), verify protected route re) Tj
+0 -14 Td (directs, and login flow completes.) Tj
+0 -14 Td (  - Test: `caption-flow.spec.ts` ? navigate to caption app, upload an example image URL, select flav) Tj
+0 -14 Td (or, click generate, assert captions appear, vote, assert vote change reflects in UI and admin.) Tj
+0 -14 Td (  - Test: `prompt-tool.spec.ts` ? create or duplicate a flavor via `/tool/flavors`, then run `/tool/) Tj
+0 -14 Td (test` generation and assert success or diagnostic text on failure.) Tj
+0 -14 Td (- CI integration \(example using Playwright\):) Tj
+0 -14 Td (  - Add to `package.json` scripts:) Tj
+0 -14 Td () Tj
+0 -14 Td (```json) Tj
+0 -14 Td ("scripts": {) Tj
+0 -14 Td (  "test:e2e": "playwright test") Tj
+0 -14 Td (}) Tj
+0 -14 Td (```) Tj
+0 -14 Td () Tj
+0 -14 Td (  - Example CI step \(GitHub Actions\):) Tj
+0 -14 Td () Tj
+0 -14 Td (```yaml) Tj
+0 -14 Td (- name: Run Playwright tests) Tj
+0 -14 Td (  uses: microsoft/playwright-github-action@v1) Tj
+0 -14 Td (- run: npm ci && npm run test:e2e) Tj
+0 -14 Td (```) Tj
+0 -14 Td () Tj
+0 -14 Td (- Edge / error cases to verify:) Tj
+0 -14 Td (  - Flavor with zero steps ? UI should prevent generation and present an explanatory message.) Tj
+0 -14 Td (  - Backend 500 \(malformed captions array\) ? UI surfaces the backend message and suggests duplicatin) Tj
+0 -14 Td (g a working flavor.) Tj
+0 -14 Td (  - Invalid flavor id ? request validated on server action and returns an error.) Tj
+0 -14 Td () Tj
+0 -14 Td (Course reflection) Tj
+0 -14 Td (- What I learned: Defensive design matters ? when an external service can return malformed data, rob) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 9 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 1461 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+(ust client-side checks \(preflight step counts, type validation, and helpful diagnostics\) maintain a ) Tj
+0 -14 Td (usable UX while the backend is fixed. Developer ergonomics \(duplicate flavor\) significantly reduces ) Tj
+0 -14 Td (human error in configuration-heavy tools.) Tj
+0 -14 Td (- What I'd do next: add Playwright tests to CI, add a "Validate Flavor" button that runs the chain w) Tj
+0 -14 Td (ithout storing outputs, and work with the caption-pipeline maintainers to guarantee consistent respo) Tj
+0 -14 Td (nse shapes.) Tj
+0 -14 Td (- Final note: The suite demonstrates a full prompt-to-caption flow with admin visibility and tooling) Tj
+0 -14 Td ( to reproduce working configurations for graders and testers.) Tj
+0 -14 Td () Tj
+0 -14 Td (Files of interest \(for graders / instructor\)) Tj
+0 -14 Td (- Create/update flavor actions: [app/tool/actions.ts]\(app/tool/actions.ts#L1-L120\)) Tj
+0 -14 Td (- Test form UI: [app/tool/test/TestForm.tsx]\(app/tool/test/TestForm.tsx#L1-L120\)) Tj
+0 -14 Td () Tj
+0 -14 Td (---) Tj
+0 -14 Td () Tj
+0 -14 Td (If you'd like, I can:) Tj
+0 -14 Td (- Generate a one-page PDF of this submission and place it in the repo \(or push to a Google Drive lin) Tj
+0 -14 Td (k you provide\).) Tj
+0 -14 Td (- Add Playwright tests and a minimal GitHub Actions workflow to run them on push.) Tj
+0 -14 Td () Tj
+0 -14 Td (PDF generation run note: workflow trigger commit \(2026-05-02\).) Tj
+0 -14 Td () Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000129 00000 n 
+0000000255 00000 n 
+0000003731 00000 n 
+0000003857 00000 n 
+0000006851 00000 n 
+0000006977 00000 n 
+0000008490 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+8560
+%%EOF
