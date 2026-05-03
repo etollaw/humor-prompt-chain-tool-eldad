@@ -1,0 +1,29 @@
+name: Generate Submission PDF
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pandoc and LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex
+
+      - name: Generate PDF from markdown
+        run: |
+          pandoc SUBMISSION_PROJECT3.md -o SUBMISSION_PROJECT3.pdf --pdf-engine=xelatex
+
+      - name: Commit generated PDF
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: add generated SUBMISSION_PROJECT3.pdf"
+          add: "SUBMISSION_PROJECT3.pdf"
